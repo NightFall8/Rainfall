@@ -374,7 +374,7 @@ class IdentityChoiceView(discord.ui.View):
                 await self.first_message.add_reaction("📩")
             except discord.HTTPException:
                 pass
-            await self.user.send(f"Your {mode} ticket has been created in **{guild.name}**.")
+            await self.user.send(f"Your {mode} ticket has been created in **{guild.name}**. Please be aware that edits to messages are not carried over.")
         except Exception:
             traceback.print_exc()
 
