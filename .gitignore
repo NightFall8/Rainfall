@@ -1,2 +1,4 @@
 .env
 cogs/__pycache__
+guild_configs/*
+user_configs/*

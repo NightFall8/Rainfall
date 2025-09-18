@@ -205,7 +205,7 @@ class DMHandler(commands.Cog):
 
     # message proxying
     @commands.Cog.listener()
-    async def on_message(self, message: discord.Message):
+    async def on_message(self, message: discord.Message, previousMessage = None):
         try:
             if message.author.bot:
                 return
@@ -224,7 +224,10 @@ class DMHandler(commands.Cog):
                             "Anonymous User" if config.get("identity_mode") == "anonymous" else user.name
                         )
                         files = [await a.to_file() for a in message.attachments] if message.attachments else None
-                        content = f"**{identity_prefix}:** {message.content}" if message.content else None
+                        if previousMessage:
+                            content = f"**{identity_prefix}:** ~~{previousMessage.content}~~\n\n{message.content}" if previousMessage.content else None
+                        else: 
+                            content = f"**{identity_prefix}:** {message.content}" if message.content else None
                         embeds = message.embeds if message.embeds else None
                         if message.stickers:
                             names = ", ".join(s.name for s in message.stickers)
@@ -307,6 +310,9 @@ class DMHandler(commands.Cog):
             print(f"[DMHandler Error] {e}")
             traceback.print_exc()
 
+    @commands.Cog.listener()
+    async def on_message_edit(self, before: discord.Message, after: discord.Message):
+        await self.on_message(after, before)
 
 # anonymous/identified popup
 class IdentityChoiceView(discord.ui.View):
