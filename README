@@ -1,0 +1,3 @@
+To use this bot please remove the example text from example.env and provide a discord bot token.
+
+To setup the bot use /set_thread_channel channel:
